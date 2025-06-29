@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MainController;
+use App\Http\Middleware\CheckIsLogged;
+use App\Http\Middleware\CheckIsNotLogged;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +17,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/login', [App\Http\Controllers\AuthController::class, 'login']);
-Route::post('/loginSubmit', [App\Http\Controllers\AuthController::class, 'loginSubmit']);
-Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logout']);
+Route::middleware([CheckIsNotLogged::class])->group(function () {
+    Route::get('/login', [AuthController::class, 'login']);
+    Route::post('/loginSubmit', [AuthController::class, 'loginSubmit']);
+    Route::get('/register', [AuthController::class, 'register']);
+    Route::post('/registerSubmit', [AuthController::class, 'registerSubmit']);
+});
+
+Route::middleware([CheckIsLogged::class])->group(function () {
+    Route::get('/', [MainController::class, 'index']);
+    Route::get('/logout', [AuthController::class, 'logout']);
+    Route::get('/newNote', [MainController::class, 'newNote']);
+});
