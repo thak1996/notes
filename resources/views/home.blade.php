@@ -28,7 +28,7 @@
             </div>
 
             @foreach($notes as $note)
-            @include('note')
+            @include('notes.note')
             @endforeach
 
             @endif
