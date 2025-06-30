@@ -12,7 +12,7 @@ class MainController extends Controller
     public function index()
     {
         $id = session('user.id');
-        $notes = User::find($id)->notes()->get()->toArray();
+        $notes = User::find($id)->notes()->whereNull('deleted_at')->get()->toArray();
         return view('home', [
             'notes' => $notes,
         ]);
@@ -57,7 +57,8 @@ class MainController extends Controller
         ]);
     }
 
-    public function editNoteSubmit(Request $request) {
+    public function editNoteSubmit(Request $request)
+    {
         $request->validate(
             [
                 'text_title' => 'required|min:3|max:255',
@@ -89,6 +90,18 @@ class MainController extends Controller
     public function deleteNote($id)
     {
         $id = Operations::decryptId($id);
-        echo "Delete note with ID: $id";
+        $note = Note::find($id);
+        return view('notes.delete_note', [
+            'note' => $note,
+        ]);
+    }
+
+    public function deleteNoteConfirm($id)
+    {
+        $id = Operations::decryptId($id);
+        $note = Note::find($id);
+        $note->delete();
+
+        return redirect()->route('home');
     }
 }
