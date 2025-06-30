@@ -68,6 +68,7 @@ class AuthController extends Controller
             [
                 'text_username' => 'required|string|email|unique:users,username',
                 'text_password' => 'required|string|min:6|max:16',
+                'text_password_confirmation' => 'required|string|same:text_password',
             ],
             [
                 'text_username.required' => 'Username is required',
@@ -76,6 +77,8 @@ class AuthController extends Controller
                 'text_password.required' => 'Password is required',
                 'text_password.min' => 'Password must be at least :min characters',
                 'text_password.max' => 'Password cannot exceed :max characters',
+                'text_password_confirmation.required' => 'Password confirmation is required',
+                'text_password_confirmation.same' => 'Password confirmation does not match',
             ]
         );
 

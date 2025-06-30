@@ -21,6 +21,13 @@
                         <div class="text-danger">{{ $message }}</div>
                         @enderror
                     </div>
+                    <div class="mb-3">
+                        <label for="text_password_confirmation" class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control bg-dark text-info" id="text_password_confirmation" name="text_password_confirmation" required>
+                        @error('text_password_confirmation')
+                        <div class="text-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
                     <button type="submit" class="btn btn-secondary w-100">Register</button>
                 </form>
 
